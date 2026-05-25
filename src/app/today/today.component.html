@@ -1,0 +1,151 @@
+<div class="page-wrap">
+
+  <!-- Header -->
+  <div class="today-header">
+    <div class="header-left">
+      <h1>Today</h1>
+      <p class="today-date">{{ dateLabel }}</p>
+    </div>
+    <button class="add-btn">
+      <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+      </svg>
+      Add Task
+    </button>
+  </div>
+
+  <!-- Stats row -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <span class="stat-value">{{ totalCount }}</span>
+      <span class="stat-label">Total Tasks</span>
+    </div>
+    <div class="stat-card completed">
+      <span class="stat-value">{{ completedCount }}</span>
+      <span class="stat-label">Completed</span>
+    </div>
+    <div class="stat-card remaining">
+      <span class="stat-value">{{ remainingCount }}</span>
+      <span class="stat-label">Remaining</span>
+    </div>
+    <div class="stat-card progress-card">
+      <span class="stat-label">Progress</span>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar" [style.width.%]="(completedCount / totalCount) * 100"></div>
+      </div>
+      <span class="progress-pct">{{ ((completedCount / totalCount) * 100) | number:'1.0-0' }}%</span>
+    </div>
+  </div>
+
+  <!-- Morning -->
+  @if (morningTasks.length > 0) {
+    <div class="period-section">
+      <div class="period-header">
+        <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15">
+          <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"/>
+        </svg>
+        <span>Morning</span>
+        <span class="period-count">{{ morningTasks.length }}</span>
+      </div>
+      <div class="task-list">
+        @for (task of morningTasks; track task.id) {
+          <div class="task-row" [class.done]="task.completed">
+            <button class="check-btn" [class.checked]="task.completed" (click)="toggleTask(task)">
+              @if (task.completed) {
+                <svg viewBox="0 0 20 20" fill="currentColor" width="12" height="12">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                </svg>
+              }
+            </button>
+            <div class="task-body">
+              <div class="task-title-row">
+                <span class="task-title">{{ task.title }}</span>
+                <span class="task-time">{{ task.time }}</span>
+              </div>
+              <p class="task-desc">{{ task.desc }}</p>
+              <div class="task-meta">
+                <span class="cat-badge" [style.background]="task.catColor + '22'" [style.color]="task.catColor">{{ task.category }}</span>
+                <span class="priority-pill" [attr.data-p]="task.priority">{{ task.priority }}</span>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- Afternoon -->
+  @if (afternoonTasks.length > 0) {
+    <div class="period-section">
+      <div class="period-header afternoon">
+        <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15">
+          <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
+        </svg>
+        <span>Afternoon</span>
+        <span class="period-count">{{ afternoonTasks.length }}</span>
+      </div>
+      <div class="task-list">
+        @for (task of afternoonTasks; track task.id) {
+          <div class="task-row" [class.done]="task.completed">
+            <button class="check-btn" [class.checked]="task.completed" (click)="toggleTask(task)">
+              @if (task.completed) {
+                <svg viewBox="0 0 20 20" fill="currentColor" width="12" height="12">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                </svg>
+              }
+            </button>
+            <div class="task-body">
+              <div class="task-title-row">
+                <span class="task-title">{{ task.title }}</span>
+                <span class="task-time">{{ task.time }}</span>
+              </div>
+              <p class="task-desc">{{ task.desc }}</p>
+              <div class="task-meta">
+                <span class="cat-badge" [style.background]="task.catColor + '22'" [style.color]="task.catColor">{{ task.category }}</span>
+                <span class="priority-pill" [attr.data-p]="task.priority">{{ task.priority }}</span>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- Evening -->
+  @if (eveningTasks.length > 0) {
+    <div class="period-section">
+      <div class="period-header evening">
+        <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15">
+          <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
+        </svg>
+        <span>Evening</span>
+        <span class="period-count">{{ eveningTasks.length }}</span>
+      </div>
+      <div class="task-list">
+        @for (task of eveningTasks; track task.id) {
+          <div class="task-row" [class.done]="task.completed">
+            <button class="check-btn" [class.checked]="task.completed" (click)="toggleTask(task)">
+              @if (task.completed) {
+                <svg viewBox="0 0 20 20" fill="currentColor" width="12" height="12">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                </svg>
+              }
+            </button>
+            <div class="task-body">
+              <div class="task-title-row">
+                <span class="task-title">{{ task.title }}</span>
+                <span class="task-time">{{ task.time }}</span>
+              </div>
+              <p class="task-desc">{{ task.desc }}</p>
+              <div class="task-meta">
+                <span class="cat-badge" [style.background]="task.catColor + '22'" [style.color]="task.catColor">{{ task.category }}</span>
+                <span class="priority-pill" [attr.data-p]="task.priority">{{ task.priority }}</span>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+</div>

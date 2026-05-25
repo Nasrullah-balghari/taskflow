@@ -1,0 +1,154 @@
+<div class="categories-page">
+
+  <!-- Header -->
+  <header class="page-header">
+    <div>
+      <h1>Categories</h1>
+      <p class="page-subtitle">Organize your tasks with custom categories</p>
+    </div>
+    <button class="btn-primary" type="button" (click)="onAddCategory()">
+      <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+      </svg>
+      New Category
+    </button>
+  </header>
+
+  <!-- Default categories -->
+  <section class="cat-section">
+    <h2 class="section-title">Default</h2>
+    <div class="cat-grid">
+      @for (cat of defaultCategories(); track cat.id) {
+        <div class="cat-card cat-card-default"
+             [style.--cat-color]="cat.hexColor"
+             (click)="onCardClick(cat.id)">
+
+          <div class="card-top">
+            <div class="card-icon"
+                 [style.background]="cat.hexColor + '22'"
+                 [style.color]="cat.hexColor">
+              @if (cat.icon) {
+                <span>{{ cat.icon }}</span>
+              } @else {
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2"/>
+                </svg>
+              }
+            </div>
+            <span class="default-badge">Default</span>
+          </div>
+
+          <h3 class="card-name">{{ cat.name }}</h3>
+
+          <div class="card-stats">
+            <div class="stat">
+              <span class="stat-num">{{ cat.totalTasks }}</span>
+              <span class="stat-lbl">{{ cat.totalTasks === 1 ? 'task' : 'tasks' }}</span>
+            </div>
+            @if (cat.completedTasks > 0) {
+              <div class="stat">
+                <span class="stat-num">{{ cat.completedTasks }}</span>
+                <span class="stat-lbl">done</span>
+              </div>
+            }
+          </div>
+
+          <div class="card-actions">
+            <button class="action-btn" type="button"
+                    (click)="onEditCategory(cat.id, $event)"
+                    aria-label="Edit category">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <path d="M12 20h9"/>
+                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- Custom categories -->
+  <section class="cat-section">
+    <div class="section-header-row">
+      <h2 class="section-title">Your Categories</h2>
+      @if (customCategories().length === 0) {
+        <span class="section-hint">None yet — create your first one!</span>
+      }
+    </div>
+    <div class="cat-grid">
+      @for (cat of customCategories(); track cat.id) {
+        <div class="cat-card"
+             [style.--cat-color]="cat.hexColor"
+             (click)="onCardClick(cat.id)">
+
+          <div class="card-top">
+            <div class="card-icon"
+                 [style.background]="cat.hexColor + '22'"
+                 [style.color]="cat.hexColor">
+              @if (cat.icon) {
+                <span>{{ cat.icon }}</span>
+              } @else {
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2"/>
+                </svg>
+              }
+            </div>
+          </div>
+
+          <h3 class="card-name">{{ cat.name }}</h3>
+
+          <div class="card-stats">
+            <div class="stat">
+              <span class="stat-num">{{ cat.totalTasks }}</span>
+              <span class="stat-lbl">{{ cat.totalTasks === 1 ? 'task' : 'tasks' }}</span>
+            </div>
+            @if (cat.completedTasks > 0) {
+              <div class="stat">
+                <span class="stat-num">{{ cat.completedTasks }}</span>
+                <span class="stat-lbl">done</span>
+              </div>
+            }
+          </div>
+
+          <div class="card-actions">
+            <button class="action-btn" type="button"
+                    (click)="onEditCategory(cat.id, $event)"
+                    aria-label="Edit category">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <path d="M12 20h9"/>
+                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+              </svg>
+            </button>
+            <button class="action-btn action-btn-danger" type="button"
+                    (click)="onDeleteCategory(cat.id, $event)"
+                    aria-label="Delete category">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <polyline points="3 6 5 6 21 6"/>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      }
+
+      <!-- Add new card -->
+      <button class="cat-card cat-card-add" type="button" (click)="onAddCategory()">
+        <div class="add-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="12" y1="5" x2="12" y2="19"/>
+            <line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+        </div>
+        <span>Add Category</span>
+      </button>
+    </div>
+  </section>
+
+</div>

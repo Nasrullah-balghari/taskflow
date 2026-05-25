@@ -1,0 +1,119 @@
+:host {
+  display: contents;
+}
+
+.toast-container {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 2000;
+  pointer-events: none;
+  max-width: 380px;
+  width: calc(100% - 48px);
+}
+
+.toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  background: white;
+  border: 1px solid #E4E4E7;
+  border-left: 4px solid #82828F;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1),
+              0 2px 4px rgba(0, 0, 0, 0.05);
+  animation: slideIn 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(120%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+.toast-success { border-left-color: #10B981; }
+.toast-success .toast-icon { color: #10B981; }
+
+.toast-error { border-left-color: #EF4444; }
+.toast-error .toast-icon { color: #EF4444; }
+
+.toast-warning { border-left-color: #F59E0B; }
+.toast-warning .toast-icon { color: #F59E0B; }
+
+.toast-info { border-left-color: #3B82F6; }
+.toast-info .toast-icon { color: #3B82F6; }
+
+.toast-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.toast-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.toast-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #18181B;
+  line-height: 1.4;
+}
+
+.toast-message {
+  font-size: 13px;
+  color: #52525B;
+  line-height: 1.5;
+  margin-top: 2px;
+}
+
+.toast-action {
+  display: inline-block;
+  margin-top: 8px;
+  background: transparent;
+  border: none;
+  color: #6366F1;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+
+  &:hover { color: #4F46E5; }
+}
+
+.toast-close {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #A1A1AA;
+  padding: 2px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+  transition: all 150ms ease;
+
+  &:hover {
+    background: #F4F4F5;
+    color: #18181B;
+  }
+}
+
+@media (max-width: 640px) {
+  .toast-container {
+    top: 16px;
+    right: 16px;
+    left: 16px;
+    width: auto;
+    max-width: none;
+  }
+}

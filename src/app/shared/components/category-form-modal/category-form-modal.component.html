@@ -1,0 +1,135 @@
+@if (isOpen()) {
+  <div class="modal-backdrop" (click)="onClose()">
+    <div class="modal-container" (click)="$event.stopPropagation()"
+         role="dialog" aria-modal="true">
+
+      <!-- Header -->
+      <header class="modal-header">
+        <h2>{{ modalTitle() }}</h2>
+        <button class="close-btn" type="button" (click)="onClose()" aria-label="Close">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </header>
+
+      <!-- Body -->
+      <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()" class="modal-body">
+
+        <!-- Live preview -->
+        <div class="preview-area">
+          <span class="preview-badge"
+                [style.background]="previewBg()"
+                [style.color]="previewHex()">
+            @if (previewIcon()) {
+              <span class="preview-emoji">{{ previewIcon() }}</span>
+            }
+            {{ previewName() }}
+          </span>
+        </div>
+
+        <!-- Name -->
+        <div class="form-group">
+          <label class="form-label" for="cat-name">
+            Name <span class="required">*</span>
+          </label>
+          <input
+            id="cat-name"
+            type="text"
+            class="form-input"
+            [class.error]="categoryForm.controls.name.invalid && categoryForm.controls.name.touched"
+            formControlName="name"
+            placeholder="e.g. Learning, Health, Finance"
+            maxlength="30"
+            autocomplete="off"
+          />
+          @if (categoryForm.controls.name.invalid && categoryForm.controls.name.touched) {
+            <span class="field-error">Name is required (max 30 characters)</span>
+          }
+        </div>
+
+        <!-- Color picker -->
+        <div class="form-group">
+          <label class="form-label">Color <span class="required">*</span></label>
+          <div class="color-picker">
+            @for (c of availableColors; track c.value) {
+              <button type="button" class="color-swatch"
+                      [class.active]="categoryForm.controls.color.value === c.value"
+                      [style.background]="c.hex"
+                      [title]="c.label"
+                      (click)="selectColor(c.value)">
+                @if (categoryForm.controls.color.value === c.value) {
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+                       stroke="white" stroke-width="3.5"
+                       stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                }
+              </button>
+            }
+          </div>
+        </div>
+
+        <!-- Icon picker -->
+        <div class="form-group">
+          <div class="icon-label-row">
+            <label class="form-label">
+              Icon <span class="optional">(optional)</span>
+            </label>
+            @if (categoryForm.controls.icon.value) {
+              <button type="button" class="link-btn" (click)="clearIcon()">Clear</button>
+            }
+          </div>
+          <div class="icon-picker">
+            @for (icon of suggestedIcons; track icon) {
+              <button type="button" class="icon-option"
+                      [class.active]="categoryForm.controls.icon.value === icon"
+                      (click)="selectIcon(icon)">
+                {{ icon }}
+              </button>
+            }
+          </div>
+        </div>
+
+        <!-- Default category notice -->
+        @if (isEditingDefault()) {
+          <div class="info-note">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" style="flex-shrink:0; margin-top:1px">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            This is a default category. You can rename and recolor it, but it cannot be deleted.
+          </div>
+        }
+
+        <!-- Error banner -->
+        @if (errorMessage()) {
+          <div class="error-banner">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" style="flex-shrink:0">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            {{ errorMessage() }}
+          </div>
+        }
+
+      </form>
+
+      <!-- Footer -->
+      <footer class="modal-footer">
+        <button type="button" class="btn-secondary" (click)="onClose()">Cancel</button>
+        <button type="button" class="btn-primary" (click)="onSubmit()"
+                [disabled]="isSubmitting()">
+          {{ isSubmitting() ? submitButtonLoading() : submitButtonText() }}
+        </button>
+      </footer>
+
+    </div>
+  </div>
+}

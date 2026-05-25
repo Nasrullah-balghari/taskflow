@@ -1,0 +1,135 @@
+@if (isOpen()) {
+  <div class="modal-backdrop" (click)="onBackdropClick($event)">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+
+      <div class="modal-header">
+        <h2 id="modal-title">{{ modalTitle() }}</h2>
+        <button class="close-btn" (click)="onClose()" aria-label="Close modal" type="button">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18">
+            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+          </svg>
+        </button>
+      </div>
+
+      <form [formGroup]="taskForm" (ngSubmit)="onSubmit()" class="modal-form">
+
+        <!-- Title -->
+        <div class="form-group">
+          <label class="form-label" for="task-title">Task Title <span class="required">*</span></label>
+          <input
+            #titleInput
+            id="task-title"
+            type="text"
+            class="form-input"
+            [class.error]="taskForm.controls.title.invalid && taskForm.controls.title.touched"
+            formControlName="title"
+            placeholder="What needs to be done?"
+            autocomplete="off"
+          />
+          @if (taskForm.controls.title.invalid && taskForm.controls.title.touched) {
+            <span class="field-error">Title is required</span>
+          }
+        </div>
+
+        <!-- Description -->
+        <div class="form-group">
+          <label class="form-label" for="task-desc">Description</label>
+          <textarea
+            id="task-desc"
+            class="form-textarea"
+            formControlName="description"
+            placeholder="Add a short description (optional)"
+            rows="2"
+          ></textarea>
+        </div>
+
+        <!-- Priority -->
+        <div class="form-group">
+          <label class="form-label">Priority</label>
+          <div class="priority-pills">
+            <button type="button" class="pill low"
+                    [class.active]="taskForm.controls.priority.value === 'low'"
+                    (click)="setPriority('low')">Low</button>
+            <button type="button" class="pill medium"
+                    [class.active]="taskForm.controls.priority.value === 'medium'"
+                    (click)="setPriority('medium')">Medium</button>
+            <button type="button" class="pill high"
+                    [class.active]="taskForm.controls.priority.value === 'high'"
+                    (click)="setPriority('high')">High</button>
+          </div>
+        </div>
+
+        <!-- Category -->
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <div class="category-pills">
+            <button type="button" class="cat-pill cat-none"
+                    [class.active]="!taskForm.controls.categoryId.value"
+                    (click)="setCategory('')">
+              None
+            </button>
+            @for (cat of categoryService.categories(); track cat.id) {
+              <button type="button" class="cat-pill"
+                      [class.active]="taskForm.controls.categoryId.value === cat.id"
+                      [style.--cat-color]="categoryService.getCategoryColor(cat.id)"
+                      (click)="setCategory(cat.id)">
+                <span class="cat-dot"></span>
+                {{ cat.name }}
+              </button>
+            }
+          </div>
+        </div>
+
+        <!-- Due Date + Due Time -->
+        <div class="form-row">
+
+          <div class="form-group">
+            <label class="form-label">Due Date</label>
+            <div class="date-shortcuts">
+              <button type="button" class="shortcut-btn"
+                      [class.active]="isDueDateToday()"
+                      (click)="setDueDateToday()">Today</button>
+              <button type="button" class="shortcut-btn"
+                      [class.active]="isDueDateTomorrow()"
+                      (click)="setDueDateTomorrow()">Tomorrow</button>
+            </div>
+            <p-datepicker
+              [(ngModel)]="dueDateValue"
+              [ngModelOptions]="{standalone: true}"
+              (ngModelChange)="onDateChange($event)"
+              dateFormat="mm/dd/yy"
+              placeholder="Select date"
+              appendTo="body"
+              [showButtonBar]="true"
+              [fluid]="true"
+            />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Due Time</label>
+            <p-datepicker
+              [(ngModel)]="dueTimeValue"
+              [ngModelOptions]="{standalone: true}"
+              (ngModelChange)="onTimeChange($event)"
+              [timeOnly]="true"
+              hourFormat="12"
+              placeholder="Select time"
+              appendTo="body"
+              [fluid]="true"
+            />
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-cancel" (click)="onClose()">Cancel</button>
+          <button type="submit" class="btn-submit" [disabled]="taskForm.invalid || isSubmitting()">
+            @if (isSubmitting()) { {{ submitButtonLoadingText() }} } @else { {{ submitButtonText() }} }
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+}

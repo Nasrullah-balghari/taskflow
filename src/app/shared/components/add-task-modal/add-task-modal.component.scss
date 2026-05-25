@@ -1,0 +1,323 @@
+$primary:       #6C63FF;
+$primary-light: #EEEEFF;
+$white:         #ffffff;
+$bg:            #F5F6FA;
+$text-dark:     #1E2029;
+$text-mid:      #6B7280;
+$text-muted:    #A0AEC0;
+$border:        #E8EAF0;
+$radius:        14px;
+$radius-sm:     9px;
+
+// ── Backdrop ──────────────────────────────────────────────────────────────────
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: rgba(0, 0, 0, .45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fade-in .15s ease;
+}
+
+// ── Card ──────────────────────────────────────────────────────────────────────
+.modal-card {
+  background: $white;
+  border-radius: $radius;
+  width: 100%;
+  max-width: 520px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .18);
+  animation: slide-up .18s ease;
+  max-height: 90vh;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar { width: 4px; }
+  &::-webkit-scrollbar-thumb { background: $border; border-radius: 4px; }
+}
+
+// ── Header ────────────────────────────────────────────────────────────────────
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid $border;
+
+  h2 {
+    font-size: 16px;
+    font-weight: 700;
+    color: $text-dark;
+    margin: 0;
+  }
+}
+
+.close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: $text-muted;
+  cursor: pointer;
+  transition: background .13s, color .13s;
+  padding: 0;
+  flex-shrink: 0;
+
+  &:hover { background: $bg; color: $text-dark; }
+}
+
+// ── Form ──────────────────────────────────────────────────────────────────────
+.modal-form { padding: 20px 24px 24px; }
+
+.form-group { margin-bottom: 16px; }
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  align-items: end;
+}
+
+.form-label {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: $text-dark;
+  margin-bottom: 7px;
+
+  .required { color: #E53E3E; }
+}
+
+.form-input {
+  width: 100%;
+  height: 40px;
+  padding: 0 12px;
+  border: 1.5px solid $border;
+  border-radius: $radius-sm;
+  font-size: 13.5px;
+  color: $text-dark;
+  background: $white;
+  outline: none;
+  transition: border-color .15s;
+  box-sizing: border-box;
+
+  &::placeholder { color: $text-muted; }
+  &:focus         { border-color: $primary; }
+  &.error         { border-color: #FC8181; }
+}
+
+
+.form-textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.5px solid $border;
+  border-radius: $radius-sm;
+  font-size: 13.5px;
+  color: $text-dark;
+  background: $white;
+  outline: none;
+  resize: none;
+  transition: border-color .15s;
+  box-sizing: border-box;
+  font-family: inherit;
+
+  &::placeholder { color: $text-muted; }
+  &:focus         { border-color: $primary; }
+}
+
+.field-error {
+  display: block;
+  font-size: 12px;
+  color: #E53E3E;
+  margin-top: 4px;
+}
+
+// ── Priority pills ────────────────────────────────────────────────────────────
+.priority-pills { display: flex; gap: 8px; }
+
+.pill {
+  padding: 6px 18px;
+  border-radius: 20px;
+  font-size: 12.5px;
+  font-weight: 600;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  transition: background .13s, border-color .13s, color .13s;
+  font-family: inherit;
+
+  &.low {
+    background: #DCFCE7; color: #16A34A; border-color: #DCFCE7;
+    &:not(.active):hover { border-color: #16A34A; }
+    &.active { background: #16A34A; border-color: #16A34A; color: $white; }
+  }
+  &.medium {
+    background: #FEF3C7; color: #D97706; border-color: #FEF3C7;
+    &:not(.active):hover { border-color: #D97706; }
+    &.active { background: #D97706; border-color: #D97706; color: $white; }
+  }
+  &.high {
+    background: #FEE2E2; color: #DC2626; border-color: #FEE2E2;
+    &:not(.active):hover { border-color: #DC2626; }
+    &.active { background: #DC2626; border-color: #DC2626; color: $white; }
+  }
+}
+
+// ── Category pills ────────────────────────────────────────────────────────────
+.category-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.cat-pill {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 12.5px;
+  font-weight: 600;
+  border: 1.5px solid $border;
+  background: $white;
+  color: $text-mid;
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color .13s, background .13s, color .13s;
+
+  .cat-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--cat-color);
+    flex-shrink: 0;
+  }
+
+  &.active {
+    background: var(--cat-color);
+    border-color: var(--cat-color);
+    color: $white;
+    .cat-dot { background: rgba(255,255,255,.65); }
+  }
+
+  &:not(.active):hover {
+    border-color: var(--cat-color, #D1D5DB);
+    color: var(--cat-color, $text-dark);
+  }
+
+  &.cat-none {
+    &.active {
+      background: $bg;
+      border-color: #D1D5DB;
+      color: $text-dark;
+    }
+    &:not(.active):hover {
+      border-color: #D1D5DB;
+      color: $text-dark;
+    }
+  }
+}
+
+// ── Date shortcuts ────────────────────────────────────────────────────────────
+.date-shortcuts { display: flex; gap: 8px; margin-bottom: 8px; }
+
+.shortcut-btn {
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1.5px solid $border;
+  background: $white;
+  color: $text-mid;
+  cursor: pointer;
+  transition: border-color .13s, color .13s, background .13s;
+
+  &:not(.active):hover { border-color: $primary; color: $primary; }
+  &.active { background: $primary; border-color: $primary; color: $white; }
+}
+
+// ── Footer ────────────────────────────────────────────────────────────────────
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid $border;
+}
+
+.btn-cancel {
+  padding: 9px 20px;
+  border-radius: $radius-sm;
+  border: 1.5px solid $border;
+  background: $white;
+  color: $text-mid;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color .13s, color .13s;
+
+  &:hover { border-color: #D1D5DB; color: $text-dark; }
+}
+
+.btn-submit {
+  padding: 9px 24px;
+  border-radius: $radius-sm;
+  border: none;
+  background: $primary;
+  color: $white;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .13s, opacity .13s;
+
+  &:hover:not(:disabled) { background: #5852D6; }
+  &:disabled { opacity: .6; cursor: not-allowed; }
+}
+
+// ── PrimeNG DatePicker overrides ──────────────────────────────────────────────
+::ng-deep {
+  .p-datepicker {
+    width: 100%;
+
+    .p-datepicker-input {
+      width: 100%;
+      height: 40px;
+      padding: 0 12px;
+      border: 1.5px solid $border;
+      border-radius: $radius-sm;
+      font-size: 13.5px;
+      color: $text-dark;
+      font-family: inherit;
+      background: $white;
+      outline: none;
+      transition: border-color .15s;
+
+      &::placeholder { color: $text-muted; }
+      &:focus, &:enabled:focus { border-color: $primary; box-shadow: none; }
+    }
+
+    .p-datepicker-dropdown {
+      height: 40px;
+      border: 1.5px solid $border;
+      border-left: none;
+      border-radius: 0 $radius-sm $radius-sm 0;
+      background: $bg;
+      color: $text-muted;
+      transition: background .13s, color .13s;
+
+      &:hover { background: $border; color: $text-dark; }
+    }
+  }
+}
+
+// ── Animations ────────────────────────────────────────────────────────────────
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { transform: translateY(14px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}

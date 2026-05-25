@@ -1,0 +1,152 @@
+<div class="board-view-page">
+
+  <!-- Header -->
+  <header class="page-header">
+    <div>
+      <h1>Board View</h1>
+      <p class="page-subtitle">Drag tasks between columns to update their status</p>
+    </div>
+    <button class="btn-primary" type="button" (click)="modalService.openAddTaskModal()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <line x1="12" y1="5"  x2="12" y2="19"/>
+        <line x1="5"  y1="12" x2="19" y2="12"/>
+      </svg>
+      Add Task
+    </button>
+  </header>
+
+  <!-- Columns -->
+  <div class="board-columns">
+
+    <!-- TO DO -->
+    <div class="board-column">
+      <div class="column-header">
+        <span class="column-dot dot-todo"></span>
+        <h3>To Do</h3>
+        <span class="column-count">{{ todoTasks().length }}</span>
+      </div>
+
+      <div class="column-cards"
+           cdkDropList
+           [id]="TODO_ID"
+           [cdkDropListData]="todoTasks()"
+           [cdkDropListConnectedTo]="[IN_PROGRESS_ID, DONE_ID]"
+           (cdkDropListDropped)="onDrop($event)">
+
+        @if (isLoading()) {
+          <app-board-card-skeleton [count]="3" />
+        } @else {
+          @for (task of todoTasks(); track task.id) {
+            <div cdkDrag [cdkDragData]="task.id" class="drag-wrapper">
+              <app-board-card [task]="task" />
+              <ng-template cdkDragPlaceholder>
+                <div class="drag-placeholder"></div>
+              </ng-template>
+            </div>
+          }
+
+          @if (todoTasks().length === 0) {
+            <div class="empty-column"><p>No tasks here yet</p></div>
+          }
+        }
+      </div>
+
+      <button class="add-card-btn" type="button" (click)="onAddCard('todo')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <line x1="12" y1="5"  x2="12" y2="19"/>
+          <line x1="5"  y1="12" x2="19" y2="12"/>
+        </svg>
+        Add card
+      </button>
+    </div>
+
+    <!-- IN PROGRESS -->
+    <div class="board-column">
+      <div class="column-header">
+        <span class="column-dot dot-in-progress"></span>
+        <h3>In Progress</h3>
+        <span class="column-count">{{ inProgressTasks().length }}</span>
+      </div>
+
+      <div class="column-cards"
+           cdkDropList
+           [id]="IN_PROGRESS_ID"
+           [cdkDropListData]="inProgressTasks()"
+           [cdkDropListConnectedTo]="[TODO_ID, DONE_ID]"
+           (cdkDropListDropped)="onDrop($event)">
+
+        @if (isLoading()) {
+          <app-board-card-skeleton [count]="3" />
+        } @else {
+          @for (task of inProgressTasks(); track task.id) {
+            <div cdkDrag [cdkDragData]="task.id" class="drag-wrapper">
+              <app-board-card [task]="task" />
+              <ng-template cdkDragPlaceholder>
+                <div class="drag-placeholder"></div>
+              </ng-template>
+            </div>
+          }
+
+          @if (inProgressTasks().length === 0) {
+            <div class="empty-column"><p>Drag a task here</p></div>
+          }
+        }
+      </div>
+
+      <button class="add-card-btn" type="button" (click)="onAddCard('in-progress')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <line x1="12" y1="5"  x2="12" y2="19"/>
+          <line x1="5"  y1="12" x2="19" y2="12"/>
+        </svg>
+        Add card
+      </button>
+    </div>
+
+    <!-- DONE -->
+    <div class="board-column">
+      <div class="column-header">
+        <span class="column-dot dot-done"></span>
+        <h3>Done</h3>
+        <span class="column-count">{{ doneTasks().length }}</span>
+      </div>
+
+      <div class="column-cards"
+           cdkDropList
+           [id]="DONE_ID"
+           [cdkDropListData]="doneTasks()"
+           [cdkDropListConnectedTo]="[TODO_ID, IN_PROGRESS_ID]"
+           (cdkDropListDropped)="onDrop($event)">
+
+        @if (isLoading()) {
+          <app-board-card-skeleton [count]="3" />
+        } @else {
+          @for (task of doneTasks(); track task.id) {
+            <div cdkDrag [cdkDragData]="task.id" class="drag-wrapper">
+              <app-board-card [task]="task" />
+              <ng-template cdkDragPlaceholder>
+                <div class="drag-placeholder"></div>
+              </ng-template>
+            </div>
+          }
+
+          @if (doneTasks().length === 0) {
+            <div class="empty-column"><p>Complete some tasks!</p></div>
+          }
+        }
+      </div>
+
+      <button class="add-card-btn" type="button" (click)="onAddCard('done')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <line x1="12" y1="5"  x2="12" y2="19"/>
+          <line x1="5"  y1="12" x2="19" y2="12"/>
+        </svg>
+        Add card
+      </button>
+    </div>
+
+  </div>
+</div>

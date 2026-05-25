@@ -1,0 +1,204 @@
+:host {
+  display: block;
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  background: #F5F6FA;
+
+  &::-webkit-scrollbar { width: 5px; }
+  &::-webkit-scrollbar-thumb { background: #E4E4E7; border-radius: 3px; }
+}
+
+.board-view-page {
+  padding: 28px 26px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+// ── Header ────────────────────────────────────────────────────────────────────
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  flex-shrink: 0;
+
+  h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #18181B;
+    margin: 0 0 4px;
+  }
+}
+
+.page-subtitle {
+  font-size: 13.5px;
+  color: #82828F;
+  margin: 0;
+}
+
+.btn-primary {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 16px;
+  height: 38px;
+  background: #6366F1;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 130ms, box-shadow 130ms, transform 130ms;
+  flex-shrink: 0;
+  font-family: inherit;
+
+  &:hover {
+    background: #4F46E5;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, .3);
+    transform: translateY(-1px);
+  }
+}
+
+// ── Columns ───────────────────────────────────────────────────────────────────
+.board-columns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  flex: 1;
+  min-height: 0;
+}
+
+.board-column {
+  background: #F0F0F2;
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 180px);
+}
+
+.column-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #E4E4E7;
+  flex-shrink: 0;
+
+  h3 {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #18181B;
+    margin: 0;
+    letter-spacing: 0.01em;
+  }
+}
+
+.column-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dot-todo        { background: #A1A1AA; }
+.dot-in-progress { background: #6366F1; }
+.dot-done        { background: #10B981; }
+
+.column-count {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 600;
+  color: #82828F;
+  background: #ffffff;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+// ── Drop zone ─────────────────────────────────────────────────────────────────
+.column-cards {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 80px;
+  padding: 2px;
+  border-radius: 8px;
+  transition: background 150ms ease;
+
+  &::-webkit-scrollbar { width: 4px; }
+  &::-webkit-scrollbar-thumb { background: #D4D4D8; border-radius: 2px; }
+}
+
+.column-cards.drop-active {
+  background: rgba(99, 102, 241, .06);
+  outline: 2px dashed rgba(99, 102, 241, .3);
+  outline-offset: -2px;
+  border-radius: 8px;
+}
+
+// ── Drag wrappers ─────────────────────────────────────────────────────────────
+.drag-wrapper {
+  cursor: grab;
+  &:active { cursor: grabbing; }
+  &[draggable="true"]:active { opacity: 0.5; }
+}
+
+// ── Empty state ───────────────────────────────────────────────────────────────
+.empty-column {
+  text-align: center;
+  padding: 28px 16px;
+  color: #A1A1AA;
+  font-size: 13px;
+
+  p { margin: 0; }
+}
+
+// ── Add card button ───────────────────────────────────────────────────────────
+.add-card-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 8px;
+  padding: 10px;
+  background: transparent;
+  border: 1.5px dashed #C4C4CC;
+  border-radius: 8px;
+  color: #82828F;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 130ms, border-color 130ms, color 130ms;
+  flex-shrink: 0;
+  font-family: inherit;
+
+  &:hover {
+    background: #ffffff;
+    border-color: #6366F1;
+    border-style: solid;
+    color: #6366F1;
+  }
+}
+
+// ── Responsive ────────────────────────────────────────────────────────────────
+@media (max-width: 1024px) {
+  .board-columns { grid-template-columns: repeat(2, 1fr); }
+  .board-column  { max-height: none; }
+}
+
+@media (max-width: 768px) {
+  .board-view-page { padding: 18px 16px; }
+}
+
+@media (max-width: 640px) {
+  .board-columns { grid-template-columns: 1fr; }
+  .page-header   { flex-direction: column; gap: 12px; }
+}

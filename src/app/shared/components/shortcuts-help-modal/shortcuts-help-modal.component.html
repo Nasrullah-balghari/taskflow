@@ -1,0 +1,52 @@
+@if (isOpen()) {
+  <div class="modal-backdrop" (click)="onClose()">
+    <div class="modal-container" (click)="$event.stopPropagation()">
+
+      <header class="modal-header">
+        <div>
+          <h2>Keyboard Shortcuts</h2>
+          <p class="subtitle">Work faster with these shortcuts</p>
+        </div>
+        <button class="close-btn" (click)="onClose()" aria-label="Close">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6"  x2="6"  y2="18"/>
+            <line x1="6"  y1="6"  x2="18" y2="18"/>
+          </svg>
+        </button>
+      </header>
+
+      <div class="modal-body">
+        @for (group of shortcutGroups(); track group.category) {
+          <section class="shortcut-group">
+            <h3 class="group-title">{{ group.category }}</h3>
+            <div class="shortcut-list">
+              @for (s of group.shortcuts; track s.id) {
+                <div class="shortcut-row">
+                  <span class="shortcut-desc">{{ s.description }}</span>
+                  <div class="shortcut-keys">
+                    @for (key of s.keys; track key; let last = $last) {
+                      <kbd>{{ displayKey(key) }}</kbd>
+                      @if (!last) {
+                        @if (s.isSequence) {
+                          <span class="key-then">then</span>
+                        } @else {
+                          <span class="key-plus">+</span>
+                        }
+                      }
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+          </section>
+        }
+      </div>
+
+      <footer class="modal-footer">
+        <p>Press <kbd>?</kbd> anytime to see this dialog</p>
+      </footer>
+
+    </div>
+  </div>
+}

@@ -1,0 +1,16 @@
+.skeleton-box {
+  display: inline-block;
+  background: linear-gradient(
+    90deg,
+    #F4F4F5 0%,
+    #FAFAFA 50%,
+    #F4F4F5 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position:  200% 0; }
+  100% { background-position: -200% 0; }
+}
