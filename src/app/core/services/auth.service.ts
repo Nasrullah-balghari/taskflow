@@ -23,7 +23,7 @@ export class AuthService {
     if (saved) this._currentUser.set(saved);
   }
 
-  // ── Public API ─────────────────────────────────────────────────────────────
+  // ── Public API ──────────────────────────────────────────────────
 
   /**
    * Validates the request, hashes the password, creates a User in LocalStorage,

@@ -15,9 +15,7 @@ export class WorkComponent {
   readonly modalService         = inject(ModalService);
   readonly categoryService      = inject(CategoryService);
   private readonly taskService  = inject(TaskService);
-
   readonly activeFilter = signal<'all' | 'active' | 'completed'>('all');
-
   readonly totalCount     = computed(() => this.taskService.tasks().length);
   readonly completedCount = computed(() => this.taskService.tasks().filter(t => t.completed).length);
   readonly activeCount    = computed(() => this.taskService.tasks().filter(t => !t.completed).length);
